@@ -1,7 +1,8 @@
 #!/bin/bash
 
-URL_DISTR="https://dl-cdn.alpinelinux.org/alpine/v3.18/releases/armv7/alpine-virt-3.18.3-armv7.iso"
-URL_EFI="http://ftp.de.debian.org/debian/pool/main/e/edk2/qemu-efi-arm_2023.05-2_all.deb"
+VERSION=3.19.1
+URL_EFI="http://ftp.de.debian.org/debian/pool/main/e/edk2/qemu-efi-arm_2023.11-5_all.deb"
+URL_DISTR="https://dl-cdn.alpinelinux.org/alpine/v${VERSION:0:4}/releases/armv7/alpine-virt-$VERSION-armv7.iso"
 
 DISK_NAME="alpine.armv7.qcow2"
 DISK_SIZE="8G"
@@ -18,6 +19,7 @@ if [ ! -f $(basename $URL_EFI) ]; then
   mv ./tmp/usr/share/AAVMF/AAVMF32_CODE.fd ./
   mv ./tmp/usr/share/AAVMF/AAVMF32_VARS.fd ./
   rm -rf tmp
+  rm ${URL_EFI##*/} 
 fi
 
 # Create qemu disc
@@ -26,7 +28,7 @@ if [ ! -f "$DISK_NAME" ]; then
 fi
 
 # Run qemu
-qemu-system-arm -accel tcg,thread=multi \
+qemu-system-arm -accel tcg \
   -machine virt \
   -cpu cortex-a15 -smp cores=4 \
   -m 2048 \
