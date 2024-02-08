@@ -4,7 +4,7 @@ DISK_NAME="alpine.armv7.qcow2"
 PORT="2222"
 
 # Run qemu
-qemu-system-arm -accel tcg,thread=multi \
+qemu-system-arm -accel tcg \
   -machine virt \
   -cpu cortex-a15 -smp cores=4 \
   -m 2048 \
